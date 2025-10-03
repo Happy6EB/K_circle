@@ -3,3 +3,5 @@ pandas
 altair
 pyarrow
 matplotlib
+yfinance
+plotly
