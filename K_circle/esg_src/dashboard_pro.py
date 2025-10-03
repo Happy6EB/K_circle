@@ -7,31 +7,38 @@ import plotly.express as px
 # -------------------------------
 # 실제로는 results.csv, news_samples.csv와 연동 가능
 df = pd.DataFrame({
-    "company": ["Samsung", "SK Hynix", "LG Chem", "Hyundai", "Kakao"],
-    "industry": ["IT", "IT", "Chem", "Auto", "Platform"],
-    "esg_score": [92, 61, 88, 77, 70],
-    "financial": [85, 65, 75, 80, 68],
-    "growth": [88, 70, 83, 76, 72],
-    "year": [2020, 2020, 2020, 2020, 2020]
+    "company": ["삼성전자", "SK 하이닉스", "LG 전자", "현대 자동차", "네이버", "한화솔루션"],
+    "industry": ["산업 분류", "IT", "Chem", "Auto", "Platform","데모 버전"],
+    "esg_score": [92, 61, 88, 77, 70, 0],
+    "financial": [85, 65, 75, 80, 68, 0],
+    "growth": [88, 70, 83, 76, 72, 0],
+    "year": [2020, 2020, 2020, 2020, 2020, 0]
 })
 
 # -------------------------------
 # 레이아웃
 # -------------------------------
-st.title("📊 ESG 기업 분석 대시보드 (PRO 버전)")
+st.title("📊 ESG 기업 분석 대시보드 ")
+st.markdown("데모 버전 made by 비비빅")  # 글자 크기 줄임
+st.write("")  # 아래 한 칸 띄움
+st.write("")  # 아래 한 칸 띄움
+
+
+
+
 
 # 1. Filters + Top5 ESG Companies
 st.sidebar.header("Filters")
 industry = st.sidebar.selectbox("Industry", df["industry"].unique())
 top5 = df.nlargest(5, "esg_score")[["company", "esg_score"]]
-st.subheader("Top 5 ESG Companies")
+st.subheader("Top 5 ESG 기업")
 st.bar_chart(top5.set_index("company"))
 
 # 2. Company Details
-company = st.selectbox("Select Company", df["company"].unique())
+company = st.selectbox("기업 선택", df["company"].unique())
 st.subheader(f"Company Details: {company}")
-st.metric("Market Cap", "342.6B")
-st.metric("Debt to Equity", "0.93")
+st.metric("시가총액 (단위:조원)", "342.6B")
+st.metric("부채비율", "0.93")
 
 trend = df[df["company"] == company].groupby("year")["esg_score"].mean()
 st.line_chart(trend)
@@ -48,8 +55,8 @@ df_radar = pd.DataFrame({
 fig = px.line_polar(df_radar, r="Company A", theta="Category", line_close=True)
 st.plotly_chart(fig)
 
-# 4. Recommendations
-st.subheader("Recommendations")
+# 4. 기업 추천
+st.subheader("기업 추천")
 col1, col2, col3 = st.columns(3)
 
 with col1:
