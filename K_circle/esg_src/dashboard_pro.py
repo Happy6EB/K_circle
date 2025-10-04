@@ -25,6 +25,19 @@ company = st.sidebar.selectbox("기업 선택", df["company"].unique())
 company_data = df[df["company"] == company].sort_values("year")
 latest = company_data.iloc[-1]
 
+
+# =========================
+# 3) Top 5 ESG 기업
+# =========================
+st.subheader("🏆 Top 5 ESG 기업")
+top5 = (
+    df.groupby("company", as_index=False)["esg_avg"]
+      .mean()
+      .nlargest(5, "esg_avg")
+)
+st.bar_chart(top5.set_index("company")["esg_avg"])
+
+
 # =========================
 # 2) Company Details (본문)
 # =========================
